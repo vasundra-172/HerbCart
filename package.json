@@ -1,4 +1,7 @@
 {
+  "engines":{
+    "node":"16.13.0"
+  },
   "name": "herbsapp",
   "version": "1.0.0",
   "description": "",
