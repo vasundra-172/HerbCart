@@ -1,0 +1,67 @@
+<% layout("/layouts/boilerplate") -%>
+<body>
+    <div class="row mt-3" >
+        <div class="col-8 offset-2">
+        <h3>Edit your Listing</h3>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
+                <div class="valid-feedback">Title looks good!</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="other_names" class="form-label">Other Names</label>
+                <input name="listing[other_names]" value="<%= listing.other_names %>" type="text" class="form-control" required>
+                <div class="invalid-feedback">Names should be valid</div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="listing[description]" type="text" class="form-control" required><%= listing.description %></textarea>
+                <div class="invalid-feedback">Please enter a short description</div>
+            </div>
+            
+            <div class="mb-3">
+                Original Herb Image
+                <br>
+                <img style="height: 150px; width: 150px;" src="<%= originalImageUrl %>" />
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
+                <input name="listing[image]" type="file" class="form-control" >
+            </div>
+
+            <div class="mb-3">
+                <label for="nursery" class="form-label">Nursery</label>
+                <input name="listing[nursery]" type="text" class="form-control" value="<%= listing.nursery%>">
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input name="listing[address]" type="text" class="form-control" value="<%= listing.address %>">
+            </div>
+            
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price</label>
+                    <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
+                    <div class="invalid-feedback">Price should be valid</div>
+                </div>
+               
+                <div class="mb-3 col-md-8">
+                    <label for="uses" class="form-label">Uses</label>
+                    <input name="listing[uses]" value="<%= listing.uses %>" type="text" class="form-control" required>
+                    <div class="invalid-feedback">please add some uses</div>
+                </div>
+            </div>
+            
+            
+            <button class="btn btn-dark edit-btn mt-2">Edit</button>
+            <br><br><br>
+        </form>
+    </div>
+    </div>
+    <script src="/js/script.js"></script> 
+</body>

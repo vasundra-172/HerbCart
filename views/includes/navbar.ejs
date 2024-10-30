@@ -1,0 +1,246 @@
+
+<style>
+  .search-btn {
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    width: 400px;
+    padding-left: 10px;
+    position: absolute;
+    left: 36%;
+  }
+
+  .search-button {
+    background-color: #198754;
+    color: #fff;
+  }
+
+  .search-btn i {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+
+  .search-inp {
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    border: none;
+    padding: 10px;
+    outline: none;
+    width: 340px;
+  }
+
+  #searchButton {
+    align-items: end;
+    border: none;
+    padding: 10px 10px 10px 15px;
+    border-radius: 1px 25px 25px 1px;
+    cursor: pointer;
+  }
+
+  .fa-solid {
+    font-size: 20px;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+  }
+
+  .nav-link {
+    margin-right: 1rem;
+  }
+
+  .nav-link:hover {
+    opacity: 0.6;
+  }
+
+  .cart {
+    display: flex;
+    justify-items: center;
+    padding-right: 15px;
+  }
+
+  .cart-icon {
+    width: 13px;
+    outline-width: thin;
+    cursor: pointer;
+  }
+
+  .cart-counter {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    line-height: 14px;
+    color: #fff;
+    background: green;
+    border: 1px solid green;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 9px;
+    letter-spacing: 0;
+    top: 20px;
+    right: 20px;
+  }
+
+  .view-box {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 400px;
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px 30px 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    right: 20px;
+    margin-top: -10px;
+     transition: all ease 0.5s; 
+  }
+
+  .view-box:hover{
+    display: block;
+  }
+  .cart-items li{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1rem;
+    justify-content: space-between;
+    padding: 10px 5px;
+    border-radius: 5px;
+    color: var(--text-color);
+    border: 1px solid rgb(203, 198, 198);
+  }
+  .viewBox-footer{
+    width: 100%;
+    background-color:  #ebebeb;
+    text-align: center;
+  }
+  .total-amount{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: 10px 10px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .cart-total{
+    font-size: 16px;
+    color:  rgb(33, 33, 33);
+    font-weight: 500;
+  }
+  .checkout-btn{
+    width: 100%;
+    margin-top: 1rem;
+    background-color: #198754;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  .view-cart{
+    color: black;
+    font-size: large;
+  }
+  .remove-item{
+    background:  rgb(203, 198, 198);
+    
+  }
+  .cart-items li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"><i class="fa-brands fa-envira"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+
+      <div class="navbar-nav ms-auto search-btn d-flex">
+        <form class="d-flex" role="search" action="/listings/search" method="GET">
+          <input class="me-2 search-inp" type="search" placeholder="Search Herbs" id="searchBar" name="title"/>
+        <button class="search-button" type="submit" id="searchButton">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        </form>
+      </div>
+
+      <div class="navbar-nav ms-auto profile">
+        <a class="nav-link" href="listings/new">Add New Herb</a>
+        <% if(!currUser) { %>
+          <a class="nav-link active" aria-current="page" href="/signup"><b>Sign up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+          <% } %>
+            <% if(currUser) { %>
+              <a class="nav-link" href="/logout"><b>Log out</b></a>
+              <a class="nav-link" href="/profile"><i class="fa-regular fa-user nav-link"></i></a>
+              <% } %>
+                <div class="cart">
+                  <a href="/cart">
+                    <span class="material-symbols-outlined cart-icon nav-link">shopping_cart</span>
+                    <% if(currUser ) { %>
+                    <span class="cart-counter"><%= totalCount %></span>
+                    <% } %>
+                  </a>
+                </div>
+                <div class="view-box" id="viewBox">
+                  <div class="cart-menu">
+                    <h4>Your Cart</h4>
+                    <% if(currUser && allCartItems.length>0) { %>
+                      <% if(allCartItems.length==1) { %>
+                        <% for(let items of allCartItems) {%>
+                          <div class="cart-items">
+                            <li> <div><img src="<%=items.productImg %>" alt="" style="height: 50px; width: 50px;">
+                               &nbsp;<%= items.productName%></div>  
+                               <div>&#8377;<%= items.productPrice %></div></li>
+                            </div>
+                          <% } %>
+                        <% } else {%>
+                          <% for(let i=allCartItems.length-1; i>allCartItems.length-3; i--) {%>
+                          <div class="cart-items">
+                          <li> <div><img src="<%=allCartItems[i].productImg %>" alt="" style="height: 50px; width: 50px;">
+                            &nbsp;<%= allCartItems[i].productName%></div>  
+                            <div>&#8377;<%= allCartItems[i].productPrice %></div></li>
+                          </div>
+                          <% } %>
+                    <% } %> 
+                    <% } %>
+                  </div>
+                  <div class="viewBox-footer">
+                    <div class="total-amount">
+                      <h5>Total</h5>
+                      <% if(currUser ) { %>
+                      <div class="cart-total">&#8377;<%= totalPrice %></div>
+                      <% } %>
+                    </div>
+                    <hr>
+                    <div class="checkout">
+                      <form action="/cart/checkout" method="GET">
+                    <button class="checkout-btn">Checkout</button>
+                    </form>
+                    <br><br>
+                    <a class="view-cart" href="/cart">View Cart</a>
+                    <br><br>
+                    </div>
+                  </div>
+                </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<script src="/js/script2.js"></script>

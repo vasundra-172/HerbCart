@@ -1,0 +1,21 @@
+<% layout("/layouts/boilerplate") -%>
+<div class="spacer"></div>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <% for(let listing of allHerbs) { %>
+            <div class="card col listing-card">
+              <a href="/listings/<%=listing._id%>" class="listing-link">
+                <img src=" <%=listing.image.url %>" class="card-img-top" alt="herb-image" style="height: 25rem"/>
+              </a>
+                <div class="card-body">
+                  <p class="card-text">
+                    <b class="list-herbs"><%= listing.title%></b>
+                    <br>
+                    &#8377; <%= listing.price %>
+                   </p>
+                </div>
+                <form action="/cart/<%=listing._id%>" method="POST">
+                <button class="btn btn-dark cart-btn">Add to cart</button>
+              </form>
+              </div>
+       <% } %>
+</div>

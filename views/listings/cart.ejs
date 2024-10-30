@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate") -%>
+  <h3 class="my-cart">My Cart</h3>
+  <% if(currUser) { %>
+  <ol class="list-group list-group-numbered">
+    <% for(let item of cartItems) {%>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div><img src=" <%= item.productImg %>" class="cart-img" alt="herb-image"/></div>
+      <div class="ms-2 me-auto">
+        <div class="fw-bold"><%= item.productName %></div> 
+        <p>&#8377; <%= item.productPrice %></p>
+      </div>
+      <div class="cart-quantities">
+      <form method="POST" action="/cart/<%= item._id%>?_method=DELETE">
+      <button class="quantity-btn">-</button>
+      </form>
+      <span class="badge text-bg-primary rounded-pill"><%= item.quantity %></span>
+      <form  method="POST" action="/cart/<%=item._id%>?_method=PUT">
+      <button class="quantity-btn">+</button>
+      </form>
+    </div>
+    </li>
+    <% } %>
+  </ol>
+ <% } %>
+ 
+<% if(currUser) { %>
+<div class="price-footer">
+  <div class="total-price">
+      <h5>Total Price</h5>
+      <div>&#8377;<%= totalPrice %></div>
+    </div>
+    <form action="/cart/checkout" method="GET">
+  <div><button class="btn btn-dark cart-btn">Check Out</button></div>
+</form>
+</div>
+<% } %>
