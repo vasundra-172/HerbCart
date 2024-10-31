@@ -66,6 +66,12 @@ body {
     margin-bottom: 2rem;
 }
 
+@media (max-width: 600px) {
+    .herbs {
+        flex-direction: column;
+    }
+  }
+
 .card-img-top{
    border-radius: 1rem !important; 
    width: 100% !important;
